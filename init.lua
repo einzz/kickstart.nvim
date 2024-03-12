@@ -255,6 +255,21 @@ require('lazy').setup({
     },
   },
 
+  {
+    'dense-analysis/ale',
+    config = function()
+      -- Configuration goes here.
+      local g = vim.g
+
+      g.ale_ruby_rubocop_auto_correct_all = 1
+
+      g.ale_linters = {
+        ruby = { 'rubocop', 'ruby' },
+        lua = { 'lua_language_server' },
+      }
+    end,
+  },
+
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -590,6 +605,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'shellcheck',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
