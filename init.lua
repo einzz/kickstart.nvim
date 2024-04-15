@@ -154,6 +154,8 @@ vim.opt.scrolloff = 10
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Autoformat file' })
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -264,6 +266,8 @@ require('lazy').setup({
       g.ale_ruby_rubocop_auto_correct_all = 1
 
       g.ale_linters = {
+        -- cpp = { 'clang-format' },
+        -- c = { 'clang-format' },
         ruby = { 'rubocop', 'ruby' },
         lua = { 'lua_language_server' },
       }
@@ -662,10 +666,10 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     opts = {
       notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
+      -- format_on_save = {
+      --   timeout_ms = 500,
+      --   lsp_fallback = true,
+      -- },
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
