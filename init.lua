@@ -189,6 +189,14 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- MY NEW CUSTOM MAPPINGS GOES HERE:
+vim.keymap.set("n", '<F9>', function()
+  vim.cmd("vsplit | wincmd l")
+  require("oil").open()
+end)
+
+vim.keymap.set('n', '<F10>', '<cmd>ClangdSwitchSourceHeader<cr>', { desc = 'Switch Source/Header (C/C++)' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -266,8 +274,8 @@ require('lazy').setup({
       g.ale_ruby_rubocop_auto_correct_all = 1
 
       g.ale_linters = {
-        -- cpp = { 'clang-format' },
-        -- c = { 'clang-format' },
+        cpp = { 'sonarlint' },
+        --  c = { 'clang-tidy' },
         ruby = { 'rubocop', 'ruby' },
         lua = { 'lua_language_server' },
       }
@@ -552,21 +560,21 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {
-          keys = {
-            { '<leader>cR', '<cmd>ClangdSwitchSourceHeader<cr>', desc = 'Switch Source/Header (C/C++)' },
-          },
+          -- keys = {
+          -- },
           root_dir = function(fname)
             return require('lspconfig.util').root_pattern(
-              'Makefile',
-              'configure.ac',
-              'configure.in',
-              'config.h.in',
-              'meson.build',
-              'meson_options.txt',
-              'build.ninja'
-            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or require('lspconfig.util').find_git_ancestor(
-              fname
-            )
+                  'Makefile',
+                  'configure.ac',
+                  'configure.in',
+                  'config.h.in',
+                  'meson.build',
+                  'meson_options.txt',
+                  'build.ninja'
+                )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
+                require('lspconfig.util').find_git_ancestor(
+                  fname
+                )
           end,
           capabilities = {
             offsetEncoding = { 'utf-16' },
@@ -859,7 +867,12 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
-
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
