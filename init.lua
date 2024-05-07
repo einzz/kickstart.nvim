@@ -80,7 +80,6 @@ If you experience any errors while trying to install kickstart, run `:checkhealt
 
 I hope you enjoy your Neovim journey,
 - TJ
-
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
@@ -654,6 +653,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
         'shellcheck',
+        'cpptools',
+
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -901,9 +902,11 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.debug',
+--  require 'custom.plugins.cmake-tools',
 
+
+  -- require 'kickstart.plugins.indent_line',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --

@@ -17,6 +17,7 @@ return {
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
+    'nvim-neotest/nvim-nio',
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
@@ -26,6 +27,7 @@ return {
     local dapui = require 'dapui'
 
     require('mason-nvim-dap').setup {
+      automatic_installation = true,
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
       automatic_setup = true,
@@ -81,7 +83,41 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
-    require('dap-go').setup()
+
+
+
+    dap.adapters.cppdbg = {
+      id = 'cppdbg',
+      type = 'executable',
+      command = '$HOME/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+    }
+
+    dap.configurations.cpp = {
+      {
+        name = "Launch file",
+        type = "cppdbg",
+        request = "launch",
+--        program = function()
+--          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
+--        end,
+        cwd = '${workspaceFolder}',
+        stopAtEntry = true,
+      },
+      {
+        name = 'Attach to gdbserver :1234',
+        type = 'cppdbg',
+        request = 'launch',
+        MIMode = 'gdb',
+        miDebuggerServerAddress = 'localhost:1234',
+        miDebuggerPath = '/usr/bin/gdb',
+        cwd = '${workspaceFolder}',
+--        program = function()
+--         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
+--        end,
+      },
+
+      -- Install golang specific config
+      require('dap-go').setup()
+    }
   end,
 }
