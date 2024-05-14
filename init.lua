@@ -904,6 +904,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   require 'kickstart.plugins.debug',
+  require 'custom.plugins.git-messenger',
   --  require 'custom.plugins.cmake-tools',
   -- require 'kickstart.plugins.indent_line',
 
