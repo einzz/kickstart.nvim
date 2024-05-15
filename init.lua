@@ -199,6 +199,16 @@ vim.keymap.set('n', '<F9>', '<Cmd>Oil<cr>')
 vim.keymap.set('n', '<F10>', '<cmd>ClangdSwitchSourceHeader<cr>', { desc = 'Switch Source/Header (C/C++)' })
 vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Esc' })
 
+-- Disable ESLint LSP server and hide virtual text in Neovim
+local isLspDiagnosticsVisible = true
+vim.keymap.set("n", "<leader>lx", function()
+  isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+  vim.diagnostic.config({
+    virtual_text = isLspDiagnosticsVisible,
+    underline = isLspDiagnosticsVisible
+  })
+end, { desc = 'Hide warnings and errors (virtual text)' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -598,7 +608,6 @@ require('lazy').setup({
         },
         -- gopls = {},
         pyright = {},
-        azure_pipelines_ls = {},
         bashls = {},
         cmake = {},
         dockerls = {},
