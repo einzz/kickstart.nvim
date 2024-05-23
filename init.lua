@@ -194,7 +194,7 @@ vim.keymap.set("n", '<F33>', function()
   vim.cmd("vsplit | wincmd l")
   require("oil").open()
 end)
-vim.keymap.set('n', '<F9>', '<Cmd>Oil<cr>')
+vim.keymap.set('n', '-', '<Cmd>Oil<cr>')
 
 vim.keymap.set('n', '<F10>', '<cmd>ClangdSwitchSourceHeader<cr>', { desc = 'Switch Source/Header (C/C++)' })
 vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Esc' })
@@ -607,7 +607,8 @@ require('lazy').setup({
           },
         },
         -- gopls = {},
-        pyright = {},
+        -- pyright = {},
+        jedi_language_server = {}, --python
         bashls = {},
         cmake = {},
         dockerls = {},
