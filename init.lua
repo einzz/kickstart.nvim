@@ -285,22 +285,22 @@ require('lazy').setup({
     },
   },
 
-  {
-    'dense-analysis/ale',
-    config = function()
-      -- Configuration goes here.
-      local g = vim.g
-
-      g.ale_ruby_rubocop_auto_correct_all = 1
-
-      g.ale_linters = {
-        cpp = { 'sonarlint' },
-        --  c = { 'clang-tidy' },
-        ruby = { 'rubocop', 'ruby' },
-        lua = { 'lua_language_server' },
-      }
-    end,
-  },
+  -- {
+  --   'dense-analysis/ale',
+  --   config = function()
+  --     -- Configuration goes here.
+  --     local g = vim.g
+  --
+  --     g.ale_ruby_rubocop_auto_correct_all = 1
+  --
+  --     g.ale_linters = {
+  --       cpp = { 'sonarlint' },
+  --       --  c = { 'clang-tidy' },
+  --       ruby = { 'rubocop', 'ruby' },
+  --       lua = { 'lua_language_server' },
+  --     }
+  --   end,
+  -- },
 
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
@@ -927,8 +927,9 @@ require('lazy').setup({
   --
   require 'kickstart.plugins.debug',
   require 'custom.plugins.git-messenger',
+  require 'custom.plugins.lint',
   --  require 'custom.plugins.cmake-tools',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
