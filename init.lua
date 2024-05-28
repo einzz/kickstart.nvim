@@ -154,7 +154,15 @@ vim.opt.scrolloff = 10
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
-vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Autoformat file' })
+-- vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, { desc = 'Autoformat file' })
+-- vim.keymap.set('v', '<leader>f', vim.lsp.buf.format, { desc = 'Autoformat file' })
+vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
+  require('conform').format {
+    lsp_fallback = true,
+    async = false,
+    timeout_ms = 500,
+  }
+end, { desc = 'Autoformat file' })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -190,9 +198,9 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- MY NEW CUSTOM MAPPINGS GOES HERE:
-vim.keymap.set("n", '<F33>', function()
-  vim.cmd("vsplit | wincmd l")
-  require("oil").open()
+vim.keymap.set('n', '<F33>', function()
+  vim.cmd 'vsplit | wincmd l'
+  require('oil').open()
 end)
 vim.keymap.set('n', '-', '<Cmd>Oil<cr>')
 
@@ -201,12 +209,12 @@ vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Esc' })
 
 -- Disable ESLint LSP server and hide virtual text in Neovim
 local isLspDiagnosticsVisible = true
-vim.keymap.set("n", "<leader>lx", function()
+vim.keymap.set('n', '<leader>lx', function()
   isLspDiagnosticsVisible = not isLspDiagnosticsVisible
-  vim.diagnostic.config({
+  vim.diagnostic.config {
     virtual_text = isLspDiagnosticsVisible,
-    underline = isLspDiagnosticsVisible
-  })
+    underline = isLspDiagnosticsVisible,
+  }
 end, { desc = 'Hide warnings and errors (virtual text)' })
 
 -- [[ Basic Autocommands ]]
@@ -257,7 +265,7 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
@@ -309,7 +317,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -355,7 +363,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -576,17 +584,16 @@ require('lazy').setup({
           -- },
           root_dir = function(fname)
             return require('lspconfig.util').root_pattern(
-                  'Makefile',
-                  'configure.ac',
-                  'configure.in',
-                  'config.h.in',
-                  'meson.build',
-                  'meson_options.txt',
-                  'build.ninja'
-                )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
-                require('lspconfig.util').find_git_ancestor(
-                  fname
-                )
+              'Makefile',
+              'configure.ac',
+              'configure.in',
+              'config.h.in',
+              'meson.build',
+              'meson_options.txt',
+              'build.ninja'
+            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or require('lspconfig.util').find_git_ancestor(
+              fname
+            )
           end,
           capabilities = {
             offsetEncoding = { 'utf-16' },
@@ -608,7 +615,7 @@ require('lazy').setup({
         },
         -- gopls = {},
         -- pyright = {},
-        jedi_language_server = {}, --python
+        -- jedi_language_server = {}, --python
         bashls = {},
         cmake = {},
         dockerls = {},
@@ -665,7 +672,9 @@ require('lazy').setup({
         'stylua', -- Used to format lua code
         'shellcheck',
         'cpptools',
-
+        'isort',
+        'black',
+        'shfmt',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -686,6 +695,7 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       notify_on_error = false,
       -- format_on_save = {
@@ -695,7 +705,9 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
+        bash = { 'shfmt' },
+        sh = { 'shfmt' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -885,23 +897,23 @@ require('lazy').setup({
     'stevearc/oil.nvim',
     opts = {},
     -- Optional dependencies
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
   {
-    "christoomey/vim-tmux-navigator",
+    'christoomey/vim-tmux-navigator',
     cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+      'TmuxNavigatePrevious',
     },
     keys = {
-      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
   },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
