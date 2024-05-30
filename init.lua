@@ -868,6 +868,9 @@ require('lazy').setup({
       -- Auto closing bracets ect.
       require('mini.pairs').setup()
 
+      -- highlights word under cursor
+      require('mini.cursorword').setup()
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
