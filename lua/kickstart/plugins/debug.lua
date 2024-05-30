@@ -13,7 +13,7 @@ return {
   dependencies = {
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
-    'nvim-neotest/nvim-nio', 
+    'theHamsta/nvim-dap-virtual-text',
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
@@ -27,11 +27,10 @@ return {
     local dapui = require 'dapui'
 
     require('mason-nvim-dap').setup {
-      automatic_installation = true,
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
-      automatic_setup = true,
 
+      automatic_installation = true,
       -- You can provide additional configuration to the handlers,
       -- see mason-nvim-dap README for more information
       handlers = {},
@@ -85,6 +84,17 @@ return {
 
 
 
+    dap.configurations.python = {
+      {
+        type = 'python',
+        request = 'launch',
+        name = "Launch file",
+        program = "${file}",
+        pythonPath = function()
+          return '/usr/bin/python3'
+        end,
+      },
+    }
 
     dap.adapters.cppdbg = {
       id = 'cppdbg',
@@ -97,9 +107,9 @@ return {
         name = "Launch file",
         type = "cppdbg",
         request = "launch",
---        program = function()
---          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
---        end,
+        --        program = function()
+        --          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
+        --        end,
         cwd = '${workspaceFolder}',
         stopAtEntry = true,
       },
@@ -111,9 +121,9 @@ return {
         miDebuggerServerAddress = 'localhost:1234',
         miDebuggerPath = '/usr/bin/gdb',
         cwd = '${workspaceFolder}',
---        program = function()
---         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
---        end,
+        --        program = function()
+        --         return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/build/', 'caf.out')
+        --        end,
       },
 
       -- Install golang specific config
