@@ -205,7 +205,14 @@ end)
 vim.keymap.set('n', '-', '<Cmd>Oil<cr>')
 
 vim.keymap.set('n', '<F10>', '<cmd>ClangdSwitchSourceHeader<cr>', { desc = 'Switch Source/Header (C/C++)' })
+
+-- Easy keybinds, easy life:
 vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Esc' })
+vim.keymap.set('n', '<Leader>w', ':wa<CR>', { desc = 'Save buffer' })
+
+-- Easy scrolling:
+vim.keymap.set('n', 'J', '<C-d>', { desc = 'Scroll down' })
+vim.keymap.set('n', 'K', '<C-u>', { desc = 'Scroll up' })
 
 -- Disable ESLint LSP server and hide virtual text in Neovim
 local isLspDiagnosticsVisible = true
@@ -536,7 +543,7 @@ require('lazy').setup({
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
+          map('m', vim.lsp.buf.hover, 'Hover Documentation')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header
