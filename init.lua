@@ -623,9 +623,9 @@ require('lazy').setup({
         -- gopls = {},
         -- pyright = {},
         -- jedi_language_server = {}, --python
-        bashls = {},
+        -- bashls = {},
         cmake = {},
-        dockerls = {},
+        -- dockerls = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -899,7 +899,6 @@ require('lazy').setup({
         highlight = { enable = true },
         indent = { enable = true },
       }
-
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
       --
